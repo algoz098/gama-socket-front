@@ -9,6 +9,9 @@ module.exports = function (ctx) {
     boot: [
       'i18n',
       'axios',
+      'getErrors',
+      'hasErrors',
+      'clearErrors',
       { path: 'socket-io', server: false }
     ],
 
@@ -29,6 +32,7 @@ module.exports = function (ctx) {
       // all: true, // --- includes everything; for dev only!
 
       components: [
+        'QInput',
         'QLayout',
         'QHeader',
         'QDrawer',

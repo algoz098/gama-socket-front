@@ -1,27 +1,58 @@
 <template>
-  <q-page class="flex flex-center">
-    <div>
+  <q-page class="row flex-center full-width">
+    <div class="col-12 text-center">
       <p>Api: {{$store.state.api}} </p>
 
       <p>Token: {{$store.state.token}}</p>
 
-      <p>User: </p>
+      <div class="row  full-width justify-center">
+        <div class="col-6">
+          <p>User: </p>
 
-      <pre>
-        {{$store.state.user.data}}
-      </pre>
+          <pre>
+            {{$store.state.user.data}}
+          </pre>
+        </div>
 
-      <div>
-        <input type="text" v-model="form.email" placeholder="email">
-      </div>
+        <div class="col-6" @keydown="$clearErrors($event)">
+          <div class="row justify-center">
+            <div class="col-3">
+              <q-input 
+                v-model="form.email" 
+                label="E-mail"
+                hint=" "
+                :error-message="$getErrors('email')" 
+                :error="$hasErrors('email')"
+              />
+            </div>
+          </div>
 
-      <div>
-        <input type="text" v-model="form.password" placeholder="password">
-      </div>
+          <div class="row justify-center q-mb-md">
+            <div class="col-3">
+              <q-input 
+                v-model="form.password" 
+                label="Password" 
+                name="password"
+                hint=" "
+                :error-message="$getErrors('password')" 
+                :error="$hasErrors('password')"
+              />
+            </div>
+          </div>
+        </div>
 
-      <q-btn label="Login (api)" color="primary" @click="submitApi" />
-      <q-btn label="Login (socket)" color="primary" @click="submitSocket" />
-      <q-btn label="Get User (socket)" color="primary" @click="getUserBySocket" />
+        <div class="col-2 offset-4">
+          <q-btn label="Login (api)" color="primary" @click="submitApi" />
+        </div>
+        
+        <div class="col-2">
+          <q-btn label="Login (socket)" color="primary" @click="submitSocket" />
+        </div>
+
+        <div class="col-2">
+          <q-btn label="Get User (socket)" color="primary" @click="getUserBySocket" />
+        </div>
+      </div>      
     </div>
   </q-page>
 </template>
@@ -38,7 +69,15 @@ export default {
       form: {
         email: 'algoz098@gmail.com',
         password: '123456'
-      }
+      },
+
+      errors: null
+    }
+  },
+
+  sockets:{
+    "validation.error"(e){
+      this.errors = e
     }
   },
 

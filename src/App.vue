@@ -29,6 +29,25 @@ export default {
 
     disconnect(e){
       // console.log("Já vai?")
+    },
+
+    notify_error(e){
+      this.$q.notify({
+        color: 'negative',
+        textColor: 'white',
+        message: e,
+        icon: 'error'
+      })
+    },
+
+    notify_success(e){
+      console.log("ae")
+      this.$q.notify({
+        color: 'positive',
+        textColor: 'white',
+        message: e,
+        icon: 'check_circle'
+      })
     }
   },
 

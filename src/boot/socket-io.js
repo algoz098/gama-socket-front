@@ -3,7 +3,7 @@ import VueSocketio from "vue-socket.io";
 
 export default ({ Vue, store }) => {
   Vue.use(new VueSocketio({
-    debug: process.env.dev,
+    debug: true,
 
     connection: `${process.env.REMOTE_URL}`,
 

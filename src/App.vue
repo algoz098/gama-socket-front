@@ -10,11 +10,11 @@ export default {
 
   async preFetch (ctx) {
     ctx.store.commit('api', process.env.REMOTE_URL)
-    ctx.store.commit('token', global.cookies.get('token'))
+      if(global.cookies.get('token') != 'undefined') ctx.store.commit('token', global.cookies.get('token'))
 
     await Promise.all([
-      ctx.store.dispatch('environment/get'),
-      ctx.store.dispatch('user/get')
+      ctx.store.dispatch('environmentGet'),
+      ctx.store.dispatch('userGet')
     ]) 
 
     return 

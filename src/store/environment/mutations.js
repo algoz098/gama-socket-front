@@ -1,3 +1,3 @@
-export function set (state,data) {
+export function environmentSet (state,data) {
     state.data = data
 }

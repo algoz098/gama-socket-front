@@ -5,6 +5,12 @@
 
       <p>Token: {{$store.state.token}}</p>
 
+      <p>User: </p>
+
+      <pre>
+        {{$store.state.user.data}}
+      </pre>
+
       <div>
         <input type="text" v-model="form.email" placeholder="email">
       </div>
@@ -14,6 +20,8 @@
       </div>
 
       <q-btn label="Login (api)" color="primary" @click="submitApi" />
+      <q-btn label="Login (socket)" color="primary" @click="submitSocket" />
+      <q-btn label="Get User (socket)" color="primary" @click="getUserBySocket" />
     </div>
   </q-page>
 </template>
@@ -35,8 +43,18 @@ export default {
   },
 
   methods:{
-    submitApi(){
-      this.$store.dispatch('user/login', this.form)
+    async submitApi(){
+      await this.$store.dispatch('userLogin', this.form)
+
+      this.$forceUpdate()
+    },
+    
+    async submitSocket(){
+      await this.$socket.emit('login', this.form)
+    },
+    
+    async getUserBySocket(){
+      await this.$socket.emit('me')
     }
   }
 }

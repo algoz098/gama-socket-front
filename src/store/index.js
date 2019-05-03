@@ -38,6 +38,14 @@ export default function (/* { ssrContext } */) {
         else axios.defaults.headers.common['Authorization'] = data;
         
         state.token = data
+      },
+
+      SOCKET_token(state, data){
+        Cookies.set('token', data)
+        
+        axios.defaults.headers.common['Authorization'] = data;
+        
+        state.token = data
       }
     },
 

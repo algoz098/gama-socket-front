@@ -1,100 +1,74 @@
 <template>
-  <q-page class="row flex-center full-width">
-    <div class="col-12 text-center">
-      <p>Api: {{$store.state.api}} </p>
+  <mount-component :data="layout" >
+    <mount-component :data="navbar"/>
 
-      <p>Token: {{$store.state.token}}</p>
+    <mount-component 
+      v-for="(component, index) in components"
+      :key="index"
+      :data="component"
+      :position="index"
+    />
 
-      <div class="row  full-width justify-center">
-        <div class="col-6">
-          <p>User: </p>
+    <mount-component :data="footer"/>
 
-          <pre>
-            {{$store.state.user.data}}
-          </pre>
-        </div>
-
-        <div class="col-6" @keydown="$clearErrors($event)">
-          <div class="row justify-center">
-            <div class="col-3">
-              <q-input 
-                v-model="form.email" 
-                label="E-mail"
-                hint=" "
-                :error-message="$getErrors('email')" 
-                :error="$hasErrors('email')"
-              />
-            </div>
-          </div>
-
-          <div class="row justify-center q-mb-md">
-            <div class="col-3">
-              <q-input 
-                v-model="form.password" 
-                label="Password" 
-                name="password"
-                hint=" "
-                :error-message="$getErrors('password')" 
-                :error="$hasErrors('password')"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div class="col-2 offset-4">
-          <q-btn label="Login (api)" color="primary" @click="submitApi" />
-        </div>
-        
-        <div class="col-2">
-          <q-btn label="Login (socket)" color="primary" @click="submitSocket" />
-        </div>
-
-        <div class="col-2">
-          <q-btn label="Get User (socket)" color="primary" @click="getUserBySocket" />
-        </div>
-      </div>      
-    </div>
-  </q-page>
+    <page-administration />
+  </mount-component>
 </template>
 
-<style>
-</style>
-
 <script>
+import mountComponent from '../components/structural/mountComponent.vue' 
+import pageAdministration from '../components/structural/pageAdministration.vue' 
+
 export default {
   name: 'PageIndex',
 
-  data(){
-    return{
-      form: {
-        email: 'algoz098@gmail.com',
-        password: '123456'
-      },
-
-      errors: null
-    }
-  },
-
-  sockets:{
-    "validation.error"(e){
-      this.errors = e
-    }
+  components:{
+    mountComponent,
+    pageAdministration
   },
 
   methods:{
-    async submitApi(){
-      await this.$store.dispatch('userLogin', this.form)
+    addComponentBefore(index){
+      if(index > 0) index -= 1
 
-      this.$forceUpdate()
-    },
-    
-    async submitSocket(){
-      await this.$socket.emit('login', this.form)
-    },
-    
-    async getUserBySocket(){
-      await this.$socket.emit('me')
+      this.localComponents.splice( index, 0, {data: {component: 'common-simple-text', type: 'component', props: {}}, index: index});
     }
+  },
+
+  computed:{
+    env(){
+      return this.$store.state.environment.data
+    },
+    
+    page(){
+      try {
+        return this.env.pages.filter(o => o.route == this.$route.path)[0]
+      } catch (error) {
+        return null        
+      }
+    },
+
+    navbar(){
+      if(!this.env) return null
+      return this.env.navbar
+    },
+
+    footer(){
+      if(!this.env) return null
+      return this.env.footer
+    },
+
+    layout(){
+      if(!this.env) return null
+      return this.env.layout
+    },
+
+    components(){
+      if(!this.page || !this.page.components) return []
+      
+      return this.page.components
+    },
+
   }
 }
 </script>

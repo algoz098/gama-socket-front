@@ -32,7 +32,21 @@ module.exports = function (ctx) {
       // all: true, // --- includes everything; for dev only!
 
       components: [
+        'QPopupProxy',
+        'QColor',
+        'QScrollArea',
+        'QPopupEdit',
+        'QMenu',
+        'QTooltip',
+        'QSpinner',
+        'QSeparator',
+        'QExpansionItem',
+        'QCard',
+        'QCardSection',
+        'QCardActions',
+        'QDialog',
         'QInput',
+        'QCheckbox',
         'QLayout',
         'QHeader',
         'QDrawer',
@@ -46,10 +60,15 @@ module.exports = function (ctx) {
         'QItem',
         'QItemSection',
         'QItemLabel',
-        'QNoSsr'
+        'QFab',
+        'QFabAction',
+        'QPageSticky',
+        'QNoSsr',
+        'QBadge'
       ],
 
       directives: [
+        'ClosePopup',
         'Ripple'
       ],
 

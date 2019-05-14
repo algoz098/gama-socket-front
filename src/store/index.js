@@ -21,6 +21,7 @@ export default function (/* { ssrContext } */) {
     },
 
     state:{
+      dev: false,
       api: null,
       token: null,
     },
@@ -30,13 +31,16 @@ export default function (/* { ssrContext } */) {
         state.api = data
       },
 
+      dev(state, data){
+        state.dev = data
+      },
+
       token(state, data){
         if(process.env.SERVER) global.cookies.set('token', data)
         else Cookies.set('token', data)
         
-        if(process.env.SERVER) global.axios.defaults.headers.common['Authorization'] = data;
-        else axios.defaults.headers.common['Authorization'] = data;
-        
+        global.axios.defaults.headers.common['Authorization'] = data;
+
         state.token = data
       },
 

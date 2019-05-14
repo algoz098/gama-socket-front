@@ -1,10 +1,8 @@
-import axios from "axios";
-
 export async function userGet(store) {
     if(!store.rootState.token) return
 
     try {
-        let response = await axios.get(`${store.rootState.api}api/v1/users/me`)
+        let response = await global.axios.get(`${store.rootState.api}api/v1/users/me`)
 
         store.commit('user_set', response.data)
 
@@ -16,7 +14,7 @@ export async function userGet(store) {
 
 export async function userLogin(store, data) {
     try {
-        let response = await axios.post(`${store.rootState.api}api/v1/users/login`, data)
+        let response = await global.axios.post(`${store.rootState.api}api/v1/users/login`, data)
 
         store.commit('token', response.data, {root: true})
 

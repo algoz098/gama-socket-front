@@ -9,15 +9,28 @@ export default {
   name: 'App',
 
   async preFetch (ctx) {
-    ctx.store.commit('api', process.env.REMOTE_URL)
-      if(global.cookies.get('token') != 'undefined') ctx.store.commit('token', global.cookies.get('token'))
+    delete global.axios.defaults.headers.common['Authorization'] 
 
-    await Promise.all([
-      ctx.store.dispatch('environmentGet'),
-      ctx.store.dispatch('userGet')
-    ]) 
+    ctx.store.commit('dev', process.env.DEV)
+
+    ctx.store.commit('api', process.env.REMOTE_URL)
+    
+    if(global.cookies.get('token') && global.cookies.get('token') != 'undefined') ctx.store.commit('token', global.cookies.get('token'))
+
+    try {
+      await Promise.all([
+        ctx.store.dispatch('environmentGet'),
+        ctx.store.dispatch('userGet')
+      ]) 
+    } catch (error) {
+      console.log(error)      
+    }
 
     return 
+  },
+
+  beforeMount(){
+    this.$store.dispatch('environmentColors')
   },
 
   sockets:{
@@ -41,7 +54,6 @@ export default {
     },
 
     notify_success(e){
-      console.log("ae")
       this.$q.notify({
         color: 'positive',
         textColor: 'white',

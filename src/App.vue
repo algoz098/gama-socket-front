@@ -28,7 +28,7 @@ export default {
 
     return 
   },
-
+  
   beforeMount(){
     this.$store.dispatch('environmentColors')
   },

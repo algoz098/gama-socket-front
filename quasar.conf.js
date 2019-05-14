@@ -46,6 +46,8 @@ module.exports = function (ctx) {
         'QCardActions',
         'QDialog',
         'QInput',
+        'QEditor',
+        'QField',
         'QCheckbox',
         'QLayout',
         'QHeader',
@@ -74,6 +76,7 @@ module.exports = function (ctx) {
 
       // Quasar plugins
       plugins: [
+        'Meta',
         'Notify',
         'Cookies'
       ]

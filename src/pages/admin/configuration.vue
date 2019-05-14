@@ -36,6 +36,56 @@
           </div>
         </q-card-section>
       </q-card>
+
+      <q-card class="q-mt-sm">
+        <q-card-section>
+          <div class="text-h6">Basic SEO</div>
+
+          <div class="text-subtitle2">For the environment</div>
+        </q-card-section>
+
+        <q-card-section>
+          <div class="row">
+            <div class="col-md-12">
+              <q-input 
+                v-model="form.metadata.titleTemplate" 
+                label="Site title"
+                hint=" "
+                :error-message="$getErrors('metadata.titleTemplate')" 
+                :error="$hasErrors('metadata.titleTemplate')"
+              />
+            </div>
+            
+            <div class="col-md-12">
+              <q-input 
+                v-model="form.metadata.meta['og:locale'].content" 
+                label="Locale"
+                hint=" "
+              />
+            </div>
+            
+            <div class="col-md-12">
+              <q-input 
+                type="textarea"
+                v-model="form.metadata.meta.keywords.content" 
+                label="Keywords"
+                hint=" "
+              />
+            </div>
+
+            <div class="col-md-12">
+              <small>
+                Description
+              </small>
+
+              <q-editor 
+                class="full-width"
+                v-model="form.metadata.meta.description.content" 
+              />
+            </div>
+          </div>
+        </q-card-section>
+      </q-card>
     </div>
 
     <div class="col-4 q-ma-xs">
@@ -124,6 +174,11 @@ export default {
       data.name = this.form.name
       data.colors = this.form.colors
 
+      data.metadata.titleTemplate     = this.form.metadata.titleTemplate
+      data.metadata.meta.description  = this.form.metadata.meta.description
+      data.metadata.meta.keywords     = this.form.metadata.meta.keywords
+      data.metadata.meta['og:locale'] = this.form.metadata.meta['og:locale']
+      
       this.$socket.emit('environments.save', data)
     },
   }
